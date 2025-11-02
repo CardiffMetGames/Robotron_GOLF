@@ -98,13 +98,13 @@ int main()
 		case 'd': new_px++; break; // Move right
 		case 'h': // Hyperspace
 		{
-		
+			if (h == 0) continue; // If hyperspace is not available, ignore input
 			while (screen[loc(new_px, new_py)] != ' ' && h>0) // Find a random empty space
 			{
 				new_px = rand() % x; // Random X position
 				new_py = rand() % y; // Random Y position
 			};
-			if(h>0)h--; // Decrease hyperspace usage count
+			h--; // Decrease hyperspace usage count
 			break;
 		}
 		default: continue; // Ignore invalid input
