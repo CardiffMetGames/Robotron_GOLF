@@ -13,7 +13,7 @@ int loc(int _x, int _y)
 
 int main()
 {
-	int r = 0, j = 0, l = 0; //number of robots, junk piles and lives
+	int r = 0, j = 0, l = 0, h=0; //number of robots, junk piles and lives
 	cout << "ROBOTRON\n";
 	cout << "X:";
 	cin >> x; // Input for X size
@@ -30,6 +30,8 @@ int main()
 	}
 	cout << "L:";
 	cin >> l; // Input for number of lives
+	cout << "H:";
+	cin >> h; // Input for hyperspace usage
 
 	int px, py; // Player position
 	px = x / 2; // Initialize player position in the middle of the screen
@@ -83,7 +85,7 @@ int main()
 			}
 			cout << endl;
 		}
-		cout << "Lives: " << l << endl;// Display remaining lives
+		cout << "Lives: " << l << " Robots: "<< r << " Hyperspace: "<<h<<endl;// Display remaining lives
 		memset(screen2, ' ', x * y); // Fill the screen buffer with spaces
 		char input;
 		cin >> input; // Get user input for movement
@@ -94,13 +96,15 @@ int main()
 		case 's': new_py++; break; // Move down
 		case 'a': new_px--; break; // Move left
 		case 'd': new_px++; break; // Move right
-		{
 		case 'h': // Hyperspace
-			while (screen[loc(new_px, new_py)] != ' ') // Find a random empty space
+		{
+		
+			while (screen[loc(new_px, new_py)] != ' ' && h>0) // Find a random empty space
 			{
 				new_px = rand() % x; // Random X position
 				new_py = rand() % y; // Random Y position
 			};
+			if(h>0)h--; // Decrease hyperspace usage count
 			break;
 		}
 		default: continue; // Ignore invalid input
@@ -149,13 +153,13 @@ int main()
 					{
 						l--; // Lose a life
 					}
-					else if (screen[loc(new_rx, new_ry)] == ' ') // If the new position is empty
-					{
-						screen2[loc(new_rx, new_ry)] = '#'; // Move robot to new position
-					}
-					else if (screen[loc(new_rx, new_ry)] == '^' || screen[loc(new_rx, new_ry)] == '#') // If junk or another robot is in the new position
+					else if (screen[loc(new_rx, new_ry)] == '^' || screen2[loc(new_rx, new_ry)] == '#') // If junk or another robot is in the new position
 					{
 						screen2[loc(new_rx, new_ry)] = '^'; // Robot becomes junk
+					}
+					else
+					{
+						screen2[loc(new_rx, new_ry)] = '#'; // Move robot to new position
 					}
 				}
 				else if (screen[lc] == '^') // If a junk pile is present
