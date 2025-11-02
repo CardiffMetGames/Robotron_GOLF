@@ -60,7 +60,7 @@ int main()
 	}
 
 	//place junk piles on the screen
-	for (int i = 0; i < r; i++)
+	for (int i = 0; i < j; i++)
 	{
 		int jx = rand() % x; // Random X position for junk
 		int jy = rand() % y; // Random Y position for junk
